@@ -4,17 +4,17 @@ Get a website set up in a few easy steps
 
 ## Getting Started
 
-* Install [Node.js](http://nodejs.org/)
-* Install [Gulp](http://gulpjs.com/) command line interface `npm install -g gulp`
-* Install [Slush](http://gulpjs.com/) command line interface `npm install -g slush`
+1. Install [Node.js](http://nodejs.org/)
+2. Install [Gulp](http://gulpjs.com/) command line interface `npm install -g gulp`
+3. Install [Slush](http://gulpjs.com/) command line interface `npm install -g slush`
 
 __The following will be replaced with a link to the generator__
 
-* Naviagte to this directory and link it as a local module
+4. Navigate to this directory and link it as a local module
   * `cd root/of/this/project/`
   * `npm link` (This might require `sudo`)
 
-* Generate and install project dependencies by:
+5. Generate and install project dependencies by:
   * `cd root/of/your/project/folder`
   * `slush slush-fed-bp`
 
