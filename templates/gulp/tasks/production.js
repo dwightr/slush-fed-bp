@@ -8,6 +8,6 @@ gulp.task('prod', function(cb) {
   global.mode = 'prod';
   global.destination = 'prod';
 
-  runSequence('clean', 'styles' ['scripts', 'html', 'images', 'copy'], cb);
+  runSequence('clean', 'styles', ['scripts', 'html', 'images', 'copy'], cb);
 
 });
