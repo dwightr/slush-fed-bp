@@ -1,9 +1,6 @@
 /*
  * slush-slush-fed-bp
  * https://github.com/maneeshchiba/slush-slush-fed-bp
- *
- * Copyright (c) 2016, Maneesh Chiba
- * Licensed under the MIT license.
  */
 
 'use strict';
@@ -15,7 +12,11 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     _ = require('underscore.string'),
     inquirer = require('inquirer'),
-    path = require('path');
+    path = require('path'),
+    gulpif = require('gulp-if'),
+    replace = require('gulp-replace-task'),
+    lazypipe = require('lazypipe'),
+    del  = require('del');
 
 function format(string) {
     var username = string.toLowerCase();
@@ -46,7 +47,8 @@ var defaults = (function () {
         appName: workingDirName,
         userName: osUserName || format(user.name || ''),
         authorName: user.name || '',
-        authorEmail: user.email || ''
+        authorEmail: user.email || '',
+        styleLanguage: ''
     };
 })();
 
@@ -75,9 +77,14 @@ gulp.task('default', function (done) {
         message: 'What is your github username?',
         default: defaults.userName
     }, {
+        name: 'styleLanguage',
+        type: 'list',
+        message: 'Which preprocessor language do you want to use?',
+        choices: ['sass','less']
+    }, {
         type: 'confirm',
         name: 'moveon',
-        message: 'Continue?'
+        message: 'Are you happy with your build config?'
     }];
     //Ask
     inquirer.prompt(prompts,
@@ -86,7 +93,11 @@ gulp.task('default', function (done) {
                 return done();
             }
             answers.appNameSlug = _.slugify(answers.appName);
-            gulp.src(__dirname + '/templates/**/*')
+            
+            var files = [__dirname + '/templates/**'];
+
+            //Transform Files for Style Language
+            gulp.src(files)
                 .pipe(template(answers))
                 .pipe(rename(function (file) {
                     if (file.basename[0] === '_') {
@@ -94,10 +105,57 @@ gulp.task('default', function (done) {
                     }
                 }))
                 .pipe(conflict('./'))
+                .pipe(
+                    gulpif( answers.styleLanguage == 'sass',
+                        replace({
+                            patterns: [{
+                                json: {
+                                    '"gulp-less": "^3.1.0",': '',
+                                    '"gulp-sass": "^2.1.0",':'"gulp-sass": "^2.1.0",',
+                                    '"gulp-sass-lint": "^1.1.1",':'"gulp-sass-lint": "^1.1.1",',
+                                    'gulp.watch(\'src/scss/**/*.scss\',  [\'styles\',\'scsslint\']);':'gulp.watch(\'src/scss/**/*.scss\',  [\'styles\',\'scsslint\']);',
+                                    'gulp.watch(\'src/less/**/*.less\',  [\'styles\']);':'',
+                                    '\'scsslint\',':'\'scsslint\',',
+                                    '//This line is replaced in the slushfile':''
+                                }
+                            }]
+                        })
+                    )
+                )
+                .pipe(
+                    gulpif( answers.styleLanguage == 'less',
+                        replace({
+                            patterns: [{
+                                json: {
+                                    '"gulp-less": "^3.1.0",': '"gulp-less": "^3.1.0",',
+                                    '"gulp-sass": "^2.1.0",':'',
+                                    '"gulp-sass-lint": "^1.1.1",':'',
+                                    'gulp.watch(\'src/scss/**/*.scss\',  [\'styles\',\'scsslint\']);':'',
+                                    'gulp.watch(\'src/less/**/*.less\',  [\'styles\']);':'gulp.watch(\'src/less/**/*.less\',  [\'styles\']);',
+                                    '\'scsslint\',':'',
+                                    '//This line is replaced in the slushfile':''
+                                }
+                            }]
+                        })
+                    )
+                )
                 .pipe(gulp.dest('./'))
-                .pipe(install())
-                .on('end', function () {
+                .on('end', function() {
+                    if (answers.styleLanguage == 'sass'){
+                        gulp.src('./gulp/tasks/scss-styles.js')
+                          .pipe(rename('./gulp/tasks/styles.js'))
+                          .pipe(gulp.dest('./'));
+                        del(['./gulp/tasks/scss-styles.js','./gulp/tasks/less-styles.js','./src/less']);
+                    }
+                    if (answers.styleLanguage == 'less'){
+                        gulp.src('./gulp/tasks/less-styles.js')
+                          .pipe(rename('./gulp/tasks/styles.js'))
+                          .pipe(gulp.dest('./'));
+                        del(['./gulp/tasks/scss-styles.js','./gulp/tasks/scsslint.js','./gulp/scss-lint.yml',,'./src/scss']);
+                    }
                     done();
-                });
+                })
+                .pipe(install());
+
         });
 });

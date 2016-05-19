@@ -16,6 +16,7 @@ gulp.task('copy', function () {
     '!src/{js,js/**}', // scripts are handled by scripts task
     '!src/{img,img/**}', // handled by image task
     '!src/{scss,scss/**}', // handled by styles task
+    '!src/{less,less/**}', // handled by styles task
     '!src/{partial,partial/**}', // we don't need partial
     '!src/maps/', //we don't need manifests and maps
     '!src/maps/**' //we don't need manifests and maps

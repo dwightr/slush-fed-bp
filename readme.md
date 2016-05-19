@@ -1,6 +1,6 @@
 # WIP
 # Slush FED Boilerplate
-Get a website set up in a few easy steps
+Get a simple website set up in a few easy steps
 
 ## Getting Started
 

@@ -12,9 +12,9 @@ gulp.task('dev', function(cb) {
   }
 
   if (global.serve != true) {
-  	runSequence('clean', ['styles', 'scsslint', 'scripts', 'jshints', 'html', 'images', 'copy'], 'watch', cb);	
+  	runSequence('clean', ['styles', @@'scsslint', 'scripts', 'jshints', 'html', 'images', 'copy'], 'watch', cb);	
   } else {
-  	runSequence('clean', ['styles', 'scsslint', 'scripts', 'jshints', 'html', 'images', 'copy', 'serve'], 'watch', cb);	
+  	runSequence('clean', ['styles', @@'scsslint', 'scripts', 'jshints', 'html', 'images', 'copy', 'serve'], 'watch', cb);	
   }
   
 });
