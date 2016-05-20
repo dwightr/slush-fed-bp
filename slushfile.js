@@ -48,7 +48,8 @@ var defaults = (function () {
         userName: osUserName || format(user.name || ''),
         authorName: user.name || '',
         authorEmail: user.email || '',
-        styleLanguage: ''
+        styleLanguage: '',
+        templateLanguage: ''
     };
 })();
 
@@ -81,6 +82,11 @@ gulp.task('default', function (done) {
         type: 'list',
         message: 'Which preprocessor language do you want to use?',
         choices: ['sass','less']
+    }, {
+        name: 'templateLanguage',
+        type: 'list',
+        message: 'Which templating language do you want to use?',
+        choices: ['none','nunjucks']
     }, {
         type: 'confirm',
         name: 'moveon',
@@ -134,6 +140,34 @@ gulp.task('default', function (done) {
                                     'gulp.watch(\'src/less/**/*.less\',  [\'styles\']);':'gulp.watch(\'src/less/**/*.less\',  [\'styles\']);',
                                     '\'scsslint\',':'',
                                     '//This line is replaced in the slushfile':''
+                                }
+                            }]
+                        })
+                    )
+                )
+                .pipe(
+                    gulpif( answers.templateLanguage == 'none',
+                        replace({
+                            patterns: [{
+                                json: {
+                                    '"gulp-nunjucks": "^2.2.0",': '',
+                                    '//This line is replaced in the slushfile':'',
+                                    'nunjucksVar':'',
+                                    'templatePipe':''
+                                }
+                            }]
+                        })
+                    )
+                )
+                .pipe(
+                    gulpif( answers.templateLanguage == 'nunjucks',
+                        replace({
+                            patterns: [{
+                                json: {
+                                    '"gulp-nunjucks": "^2.2.0",': '"gulp-nunjucks": "^2.2.0",',
+                                    '//This line is replaced in the slushfile':'',
+                                    'nunjucksVar':'nunjucks = require(\'gulp-nunjucks-html\'),',
+                                    'templatePipe':'.pipe(nunjucks({ searchPaths: [\'src/\'] }))'
                                 }
                             }]
                         })
