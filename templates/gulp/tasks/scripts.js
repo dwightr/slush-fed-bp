@@ -9,7 +9,7 @@ var gulp = require('gulp'),
 	handleErrors = require('../util/handleErrors');
 
 gulp.task('scripts', function() {
-	return gulp.src('src/js/**/*.js')
+	return gulp.src(['src/js/**/*.js' @@,'node_modules/bootstrap-sass/assets/javascripts/bootstrap.js' @@,'node_modules/jquery/dist/jquery.js' @@,'node_modules/bootstrap-less/js/bootstrap.js'])
 	.pipe(gulpif(global.mode !== 'dev',uglify()))
 	.on('error', handleErrors)
 	.pipe(gulpif(global.mode === 'dev', gulp.dest(global.destination + '/js')))

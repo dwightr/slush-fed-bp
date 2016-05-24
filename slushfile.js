@@ -49,7 +49,8 @@ var defaults = (function () {
         authorName: user.name || '',
         authorEmail: user.email || '',
         styleLanguage: '',
-        templateLanguage: ''
+        templateLanguage: '',
+        frameworks: ''
     };
 })();
 
@@ -88,6 +89,11 @@ gulp.task('default', function (done) {
         message: 'Which templating language do you want to use?',
         choices: ['none','nunjucks']
     }, {
+        name: 'frameworks',
+        type: 'checkbox',
+        message: 'Select frameworks and libraries: (Use spacebar to select)',
+        choices: ['bootstrap','jQuery']
+    }, {
         type: 'confirm',
         name: 'moveon',
         message: 'Are you happy with your build config?'
@@ -99,7 +105,15 @@ gulp.task('default', function (done) {
                 return done();
             }
             answers.appNameSlug = _.slugify(answers.appName);
-            
+            var bootstrap, jQuery;
+            for(var i = 0; i < answers.frameworks.length; i++){
+                if (answers.frameworks[i] == 'bootstrap'){
+                    bootstrap = true;
+                }
+                if (answers.frameworks[i] == 'jQuery'){
+                    jQuery = true;
+                }
+            }
             var files = [__dirname + '/templates/**'];
 
             //Transform Files for Style Language
@@ -168,6 +182,82 @@ gulp.task('default', function (done) {
                                     '//This line is replaced in the slushfile':'',
                                     'nunjucksVar':'nunjucks = require(\'gulp-nunjucks-html\'),',
                                     'templatePipe':'.pipe(nunjucks({ searchPaths: [\'src/\'] }))'
+                                }
+                            }]
+                        })
+                    )
+                )
+                .pipe(
+                    gulpif( (bootstrap == true) && (answers.styleLanguage == 'sass') ,
+                        replace({
+                            patterns: [{
+                                json: {
+                                    '"bootstrap-sass": "^3.3.6",': '"bootstrap-sass": "^3.3.6",',
+                                    '"bootstrap-less": "^3.3.8",':'',
+                                    '"jquery": "^2.2.4",': '"jquery": "^2.2.4",',
+                                    '//This line is replaced in the slushfile':'',
+                                    'includePaths:[\'node_modules/bootstrap-sass/assets/stylesheets\'],':'includePaths:[\'node_modules/bootstrap-sass/assets/stylesheets\'],',
+                                    ',\'node_modules/bootstrap-sass/assets/javascripts/bootstrap.js\'':',\'node_modules/bootstrap-sass/assets/javascripts/bootstrap.js\'',
+                                    ',\'node_modules/jquery/dist/jquery.js\'': ',\'node_modules/jquery/dist/jquery.js\'',
+                                    ',\'node_modules/bootstrap-less/js/bootstrap.js\'':'',
+                                }
+                            }]
+                        }),
+                        replace({
+                            patterns: [{
+                                json: {
+                                    '"bootstrap-sass": "^3.3.6",': '',
+                                    '//This line is replaced in the slushfile':'',
+                                    'includePaths:[\'node_modules/bootstrap-sass/assets/stylesheets\'],':'',
+                                    ',\'node_modules/bootstrap-sass/assets/javascripts/bootstrap.js\'':''
+                                }
+                            }]
+                        })
+                    )
+                )
+                .pipe(
+                    gulpif( (bootstrap == true) && (answers.styleLanguage == 'less') ,
+                        replace({
+                            patterns: [{
+                                json: {
+                                    '"bootstrap-less": "^3.3.8",':'"bootstrap-less": "^3.3.8",',
+                                    '"jquery": "^2.2.4",': '"jquery": "^2.2.4",',
+                                    '//This line is replaced in the slushfile':'',
+                                    ',\'node_modules/bootstrap-less/bootstrap/**/*.less\'':',\'node_modules/bootstrap-less/bootstrap/**/*.less\'',
+                                    ',\'node_modules/bootstrap-less/js/bootstrap.js\'':',\'node_modules/bootstrap-less/js/bootstrap.js\'',
+                                    ',\'node_modules/jquery/dist/jquery.js\'': ',\'node_modules/jquery/dist/jquery.js\''
+                                }
+                            }]
+                        }),
+                        replace({
+                            patterns: [{
+                                json: {
+                                    '"bootstrap-less": "^3.3.8",':'',
+                                    '//This line is replaced in the slushfile':'',
+                                    ',\'node_modules/bootstrap-less/bootstrap/**/*.less\'':'',
+                                    ',\'node_modules/bootstrap-less/js/bootstrap.js\'':'',
+                                }
+                            }]
+                        })
+                    )
+                )
+                .pipe(
+                    gulpif( jQuery == true,
+                        replace({
+                            patterns: [{
+                                json: {
+                                    '"jquery": "^2.2.4",': '"jquery": "^2.2.4",',
+                                    '//This line is replaced in the slushfile':'',
+                                    ',\'node_modules/jquery/dist/jquery.js\'': ',\'node_modules/jquery/dist/jquery.js\''
+                                }
+                            }]
+                        }),
+                        replace({
+                            patterns: [{
+                                json: {
+                                    '"jquery": "^2.2.4",': '',
+                                    '//This line is replaced in the slushfile':'',
+                                    ',\'node_modules/jquery/dist/jquery.js\'': ''
                                 }
                             }]
                         })

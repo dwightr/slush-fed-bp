@@ -9,7 +9,7 @@ var gulp         = require('gulp'),
     handleErrors = require('../util/handleErrors');
 
 gulp.task('styles', function () {
-  return gulp.src('src/less/**/*.less')
+  return gulp.src(['src/less/**/*.less'@@,'node_modules/bootstrap-less/bootstrap/**/*.less'])
     .pipe( less({
       compress: (global.mode === 'dev') ? 'flase' : 'true'
     }))
