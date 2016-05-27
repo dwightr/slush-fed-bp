@@ -267,15 +267,27 @@ gulp.task('default', function (done) {
                 .on('end', function() {
                     if (answers.styleLanguage == 'sass'){
                         gulp.src('./gulp/tasks/scss-styles.js')
-                          .pipe(rename('./gulp/tasks/styles.js'))
-                          .pipe(gulp.dest('./'));
+                          .pipe(rename('styles.js'))
+                          .pipe(gulp.dest('./gulp/tasks/'));
                         del(['./gulp/tasks/scss-styles.js','./gulp/tasks/less-styles.js','./src/less']);
                     }
                     if (answers.styleLanguage == 'less'){
                         gulp.src('./gulp/tasks/less-styles.js')
-                          .pipe(rename('./gulp/tasks/styles.js'))
-                          .pipe(gulp.dest('./'));
+                          .pipe(rename('styles.js'))
+                          .pipe(gulp.dest('./gulp/tasks/'));
                         del(['./gulp/tasks/scss-styles.js','./gulp/tasks/scsslint.js','./gulp/scss-lint.yml',,'./src/scss']);
+                    }
+                    if ((bootstrap !== true) && (answers.styleLanguage == 'sass')){
+                        del(['./src/scss/variables.scss','./src/scss/vendor/bootstrap.scss']);
+                    }
+                    if ((bootstrap == true) && (answers.styleLanguage == 'sass')){
+                        gulp.src('./src/scss/variables.scss')
+                          .pipe(rename('_variables.scss'))
+                          .pipe(gulp.dest('./src/scss/'));
+                        gulp.src('./src/scss/vendor/bootstrap.scss')
+                          .pipe(rename('_bootstrap.scss'))
+                          .pipe(gulp.dest('./src/scss/vendor/'));
+                        del(['./src/scss/variables.scss','./src/scss/vendor/bootstrap.scss']);
                     }
                     done();
                 })
