@@ -116,7 +116,6 @@ gulp.task('default', function (done) {
             }
             var files = [__dirname + '/templates/**'];
 
-            //Transform Files for Style Language
             gulp.src(files)
                 .pipe(template(answers))
                 .pipe(rename(function (file) {
