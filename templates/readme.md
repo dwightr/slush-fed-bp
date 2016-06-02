@@ -1,5 +1,5 @@
-# FED Boilerplate
-Get your website up and running quickly.
+# <%= appNameSlug %> (<%= appVersion %>)
+<%= appDescription %>
 
 ## Getting Started
 
