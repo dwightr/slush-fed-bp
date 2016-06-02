@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "YOUR_CONTACT",
+  "author": "<%= authorEmail %>",
   "dependencies": {},
   "devDependencies": {
     "browser-sync": "^2.12.7",
@@ -20,7 +20,7 @@
     @@"bootstrap-sass": "^3.3.6", @@//This line is replaced in the slushfile
     @@"bootstrap-less": "^3.3.8", @@//This line is replaced in the slushfile
     @@"gulp-less": "^3.1.0", @@//This line is replaced in the slushfile
-    @@"normalize.less": "^1.0.0", @@//This line is replaced in the slushfile
+    @@"normalize-css": "^2.3.1", @@//This line is replaced in the slushfile
     "gulp-notify": "^2.2.0",
     "gulp-replace": "^0.5.4",
     "gulp-rev": "^7.0.0",
