@@ -135,7 +135,9 @@ gulp.task('default', function (done) {
                                     'gulp.watch(\'src/scss/**/*.scss\',  [\'styles\',\'scsslint\']);':'gulp.watch(\'src/scss/**/*.scss\',  [\'styles\',\'scsslint\']);',
                                     'gulp.watch(\'src/less/**/*.less\',  [\'styles\']);':'',
                                     '\'scsslint\',':'\'scsslint\',',
-                                    '//This line is replaced in the slushfile':''
+                                    '//This line is replaced in the slushfile':'',
+                                    '"normalize-scss": "^5.0.3",':'"normalize-scss": "^5.0.3",',
+                                    '"normalize.less": "^1.0.0",':''
                                 }
                             }]
                         })
@@ -152,7 +154,9 @@ gulp.task('default', function (done) {
                                     'gulp.watch(\'src/scss/**/*.scss\',  [\'styles\',\'scsslint\']);':'',
                                     'gulp.watch(\'src/less/**/*.less\',  [\'styles\']);':'gulp.watch(\'src/less/**/*.less\',  [\'styles\']);',
                                     '\'scsslint\',':'',
-                                    '//This line is replaced in the slushfile':''
+                                    '//This line is replaced in the slushfile':'',
+                                    '"normalize.less": "^1.0.0",':'"normalize.less": "^1.0.0",',
+                                    '"normalize-scss": "^5.0.3",':''
                                 }
                             }]
                         })
@@ -199,6 +203,7 @@ gulp.task('default', function (done) {
                                     ',\'node_modules/bootstrap-sass/assets/javascripts/bootstrap.js\'':',\'node_modules/bootstrap-sass/assets/javascripts/bootstrap.js\'',
                                     ',\'node_modules/jquery/dist/jquery.js\'': ',\'node_modules/jquery/dist/jquery.js\'',
                                     ',\'node_modules/bootstrap-less/js/bootstrap.js\'':'',
+                                    'includePaths:[\'node_modules/normalize-scss/sass/_normalize.scss\'],':''
                                 }
                             }]
                         }),
@@ -208,7 +213,8 @@ gulp.task('default', function (done) {
                                     '"bootstrap-sass": "^3.3.6",': '',
                                     '//This line is replaced in the slushfile':'',
                                     'includePaths:[\'node_modules/bootstrap-sass/assets/stylesheets\'],':'',
-                                    ',\'node_modules/bootstrap-sass/assets/javascripts/bootstrap.js\'':''
+                                    ',\'node_modules/bootstrap-sass/assets/javascripts/bootstrap.js\'':'',
+                                    'includePaths:[\'node_modules/normalize-scss/sass/_normalize.scss\'],':'includePaths:[\'node_modules/normalize-scss/sass/_normalize.scss\'],'
                                 }
                             }]
                         })
