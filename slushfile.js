@@ -137,7 +137,7 @@ gulp.task('default', function (done) {
                                     '\'scsslint\',':'\'scsslint\',',
                                     '//This line is replaced in the slushfile':'',
                                     '"normalize-scss": "^5.0.3",':'"normalize-scss": "^5.0.3",',
-                                    '"normalize.less": "^1.0.0",':''
+                                    '"normalize-css": "^2.3.1",':''
                                 }
                             }]
                         })
@@ -155,7 +155,7 @@ gulp.task('default', function (done) {
                                     'gulp.watch(\'src/less/**/*.less\',  [\'styles\']);':'gulp.watch(\'src/less/**/*.less\',  [\'styles\']);',
                                     '\'scsslint\',':'',
                                     '//This line is replaced in the slushfile':'',
-                                    '"normalize.less": "^1.0.0",':'"normalize.less": "^1.0.0",',
+                                    '"normalize-css": "^2.3.1",':'"normalize-css": "^2.3.1",',
                                     '"normalize-scss": "^5.0.3",':''
                                 }
                             }]
@@ -228,9 +228,10 @@ gulp.task('default', function (done) {
                                     '"bootstrap-less": "^3.3.8",':'"bootstrap-less": "^3.3.8",',
                                     '"jquery": "^2.2.4",': '"jquery": "^2.2.4",',
                                     '//This line is replaced in the slushfile':'',
-                                    ',\'node_modules/bootstrap-less/bootstrap/**/*.less\'':',\'node_modules/bootstrap-less/bootstrap/**/*.less\'',
+                                    '\'node_modules/bootstrap-less/bootstrap/**/*.less\',':'\'node_modules/bootstrap-less/bootstrap/**/*.less\',',
                                     ',\'node_modules/bootstrap-less/js/bootstrap.js\'':',\'node_modules/bootstrap-less/js/bootstrap.js\'',
-                                    ',\'node_modules/jquery/dist/jquery.js\'': ',\'node_modules/jquery/dist/jquery.js\''
+                                    ',\'node_modules/jquery/dist/jquery.js\'': ',\'node_modules/jquery/dist/jquery.js\'',
+                                    '\'node_modules/normalize-css/normalize.css\',':''
                                 }
                             }]
                         }),
@@ -239,8 +240,9 @@ gulp.task('default', function (done) {
                                 json: {
                                     '"bootstrap-less": "^3.3.8",':'',
                                     '//This line is replaced in the slushfile':'',
-                                    ',\'node_modules/bootstrap-less/bootstrap/**/*.less\'':'',
+                                    '\'node_modules/bootstrap-less/bootstrap/**/*.less\',':'',
                                     ',\'node_modules/bootstrap-less/js/bootstrap.js\'':'',
+                                    '\'node_modules/normalize-css/normalize.css\',':'\'node_modules/normalize-css/normalize.css\','
                                 }
                             }]
                         })
@@ -280,7 +282,7 @@ gulp.task('default', function (done) {
                         gulp.src('./gulp/tasks/less-styles.js')
                           .pipe(rename('styles.js'))
                           .pipe(gulp.dest('./gulp/tasks/'));
-                        del(['./gulp/tasks/scss-styles.js','./gulp/tasks/scsslint.js','./gulp/scss-lint.yml',,'./src/scss']);
+                        del(['./gulp/tasks/scss-styles.js','./gulp/tasks/scsslint.js','./gulp/scss-lint.yml','./gulp/tasks/less-styles.js','./src/scss']);
                     }
                     if ((bootstrap !== true) && (answers.styleLanguage == 'sass')){
                         del(['./src/scss/variables.scss','./src/scss/vendor/bootstrap.scss']);
