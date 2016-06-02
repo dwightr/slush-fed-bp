@@ -130,7 +130,7 @@ gulp.task('default', function (done) {
                             patterns: [{
                                 json: {
                                     '"gulp-less": "^3.1.0",': '',
-                                    '"gulp-sass": "^2.1.0",':'"gulp-sass": "^2.1.0",',
+                                    '"gulp-sass": "^2.3.1",':'"gulp-sass": "^2.3.1",',
                                     '"gulp-sass-lint": "^1.1.1",':'"gulp-sass-lint": "^1.1.1",',
                                     'gulp.watch(\'src/scss/**/*.scss\',  [\'styles\',\'scsslint\']);':'gulp.watch(\'src/scss/**/*.scss\',  [\'styles\',\'scsslint\']);',
                                     'gulp.watch(\'src/less/**/*.less\',  [\'styles\']);':'',
@@ -149,7 +149,7 @@ gulp.task('default', function (done) {
                             patterns: [{
                                 json: {
                                     '"gulp-less": "^3.1.0",': '"gulp-less": "^3.1.0",',
-                                    '"gulp-sass": "^2.1.0",':'',
+                                    '"gulp-sass": "^2.3.1",':'',
                                     '"gulp-sass-lint": "^1.1.1",':'',
                                     'gulp.watch(\'src/scss/**/*.scss\',  [\'styles\',\'scsslint\']);':'',
                                     'gulp.watch(\'src/less/**/*.less\',  [\'styles\']);':'gulp.watch(\'src/less/**/*.less\',  [\'styles\']);',
@@ -203,7 +203,7 @@ gulp.task('default', function (done) {
                                     ',\'node_modules/bootstrap-sass/assets/javascripts/bootstrap.js\'':',\'node_modules/bootstrap-sass/assets/javascripts/bootstrap.js\'',
                                     ',\'node_modules/jquery/dist/jquery.js\'': ',\'node_modules/jquery/dist/jquery.js\'',
                                     ',\'node_modules/bootstrap-less/js/bootstrap.js\'':'',
-                                    'includePaths:[\'node_modules/normalize-scss/sass/_normalize.scss\'],':''
+                                    'includePaths:[\'node_modules/normalize-scss/sass/normalize/\'],':''
                                 }
                             }]
                         }),
@@ -214,7 +214,7 @@ gulp.task('default', function (done) {
                                     '//This line is replaced in the slushfile':'',
                                     'includePaths:[\'node_modules/bootstrap-sass/assets/stylesheets\'],':'',
                                     ',\'node_modules/bootstrap-sass/assets/javascripts/bootstrap.js\'':'',
-                                    'includePaths:[\'node_modules/normalize-scss/sass/_normalize.scss\'],':'includePaths:[\'node_modules/normalize-scss/sass/_normalize.scss\'],'
+                                    'includePaths:[\'node_modules/normalize-scss/sass/normalize/\'],':'includePaths:[\'node_modules/normalize-scss/sass/normalize/\'],'
                                 }
                             }]
                         })
@@ -294,7 +294,7 @@ gulp.task('default', function (done) {
                         gulp.src('./src/scss/vendor/bootstrap.scss')
                           .pipe(rename('_bootstrap.scss'))
                           .pipe(gulp.dest('./src/scss/vendor/'));
-                        del(['./src/scss/variables.scss','./src/scss/vendor/bootstrap.scss']);
+                        del(['./src/scss/variables.scss','./src/scss/vendor/bootstrap.scss','./src/scss/vendor/normalize.scss']);
                     }
                     done();
                 })

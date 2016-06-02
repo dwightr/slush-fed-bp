@@ -11,10 +11,10 @@ var gulp         = require('gulp'),
 
 gulp.task('styles', function () {
 
-  return gulp.src('src/scss/**/*.scss')
+  return gulp.src(['src/scss/**/*.scss','!src/scss/vendor/**.*.scss'])
     .pipe( sass({
         @@includePaths:['node_modules/bootstrap-sass/assets/stylesheets'],
-        @@includePaths:['node_modules/normalize-scss/sass/_normalize.scss'],
+        @@includePaths:['node_modules/normalize-scss/sass/normalize/'],
         sourceComments: (global.mode === 'dev') ? true : false,
         outputStyle: (global.mode === 'dev') ? 'nested': 'compressed',
         errLogToConsole: true
