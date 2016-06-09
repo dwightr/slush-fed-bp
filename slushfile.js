@@ -92,7 +92,7 @@ gulp.task('default', function (done) {
         name: 'frameworks',
         type: 'checkbox',
         message: 'Select frameworks and libraries: (Use spacebar to select)',
-        choices: ['bootstrap','jQuery']
+        choices: ['bootstrap','jQuery','Modernizr']
     }, {
         type: 'confirm',
         name: 'moveon',
@@ -105,13 +105,16 @@ gulp.task('default', function (done) {
                 return done();
             }
             answers.appNameSlug = _.slugify(answers.appName);
-            var bootstrap, jQuery;
+            var bootstrap, jQuery, Modernizr;
             for(var i = 0; i < answers.frameworks.length; i++){
                 if (answers.frameworks[i] == 'bootstrap'){
                     bootstrap = true;
                 }
                 if (answers.frameworks[i] == 'jQuery'){
                     jQuery = true;
+                }
+                if (answers.frameworks[i] == 'Modernizr'){
+                    Modernizr = true;
                 }
             }
             var files = [__dirname + '/templates/**'];
@@ -270,6 +273,24 @@ gulp.task('default', function (done) {
                         })
                     )
                 )
+                .pipe(
+                    gulpif( Modernizr == true,
+                        replace({
+                            patterns: [{
+                                json: {
+                                    '<script src="js/vendor/modernizr.js"></script>':'<script src="js/vendor/modernizr.js"></script>'
+                                }
+                            }]
+                        }),
+                        replace({
+                            patterns: [{
+                                json: {
+                                    '<script src="js/vendor/modernizr.js"></script>':''
+                                }
+                            }]
+                        })
+                    )
+                )
                 .pipe(gulp.dest('./'))
                 .on('end', function() {
                     if (answers.styleLanguage == 'sass'){
@@ -283,6 +304,9 @@ gulp.task('default', function (done) {
                           .pipe(rename('styles.js'))
                           .pipe(gulp.dest('./gulp/tasks/'));
                         del(['./gulp/tasks/scss-styles.js','./gulp/tasks/scsslint.js','./gulp/scss-lint.yml','./gulp/tasks/less-styles.js','./src/scss']);
+                    }
+                    if (Modernizr != true){
+                        del(['./src/js/vendor/modernizr.js']);
                     }
                     if ((bootstrap !== true) && (answers.styleLanguage == 'sass')){
                         del(['./src/scss/variables.scss','./src/scss/vendor/bootstrap.scss']);
